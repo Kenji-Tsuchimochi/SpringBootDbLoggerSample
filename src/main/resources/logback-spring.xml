@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="true">
+    <!-- Read datasource properties from Spring Environment -->
+    <springProperty scope="context" name="dsUrl" source="spring.datasource.url"/>
+    <springProperty scope="context" name="dsUser" source="spring.datasource.username"/>
+    <springProperty scope="context" name="dsPass" source="spring.datasource.password"/>
+    <springProperty scope="context" name="dsDriver" source="spring.datasource.driver-class-name"/>
+
+    <!-- Console appender stays for local visibility -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- DB appender that writes to logging_event* tables -->
+    <appender name="DB" class="ch.qos.logback.classic.db.DBAppender">
+        <connectionSource class="ch.qos.logback.core.db.DriverManagerConnectionSource">
+            <driverClass>${dsDriver}</driverClass>
+            <url>${dsUrl}</url>
+            <user>${dsUser}</user>
+            <password>${dsPass}</password>
+        </connectionSource>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="DB"/>
+    </root>
+</configuration>
