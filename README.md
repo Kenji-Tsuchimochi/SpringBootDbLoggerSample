@@ -1,0 +1,2 @@
+# SpringBootDbLoggerSample
+SpringBootで、ログ出力先をH2等のDBに変更するサンプルプロジェクト
